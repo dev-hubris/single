@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 대시보드</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #1F1F2F;
+        color: #FFFFFF;
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+
+    /* 사이드 메뉴 스타일 */
+    .sidebar {
+        width: 250px;
+        background-color: #2A2A3D;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sidebar a {
+        color: #AAAAAA;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .sidebar a.active, .sidebar a:hover {
+        background-color: #3B3B52;
+        color: #FFFFFF;
+    }
+
+    /* 메인 컨텐츠 */
+    .main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background-color: #2A2A3D;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #FFFFFF;
+    }
+
+    .card p {
+        margin: 10px 0 0;
+        font-size: 20px;
+        font-weight: bold;
+        color: #FFC107;
+    }
+
+    .chart-container {
+        background-color: #2A2A3D;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .chart-container h2 {
+        margin: 0 0 20px;
+        font-size: 18px;
+    }
+
+    /* 뒤로가기 버튼 스타일 */
+    .back-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #FFC107;
+        color: #333;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+
+    .back-button:hover {
+        background-color: #FFD54F;
+    }
+
+    .details {
+        display: none;
+    }
+
+    .details.active {
+        display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- 사이드 메뉴 -->
+  <div class="sidebar">
+    <a href="#" class="active" onclick="showSection('dashboard')">대시보드</a>
+    <a href="#" onclick="showSection('products')">제품 관리</a>
+    <a href="#" onclick="showSection('inventory')">재고 관리</a>
+    <a href="#" onclick="showSection('orders')">주문 관리</a>
+    <a href="#" onclick="showSection('members')">회원 관리</a>
+  </div>
+
+  <!-- 메인 컨텐츠 -->
+  <div class="main">
+    <!-- 대시보드 섹션 -->
+    <div id="dashboard" class="details active">
+      <h1>대시보드</h1>
+      <div class="card-container">
+        <div class="card">
+          <h3>등록된 상품</h3>
+          <p id="productCount">150</p>
+        </div>
+        <div class="card">
+          <h3>총 재고</h3>
+          <p id="inventoryCount">4500</p>
+        </div>
+        <div class="card">
+          <h3>주문 수</h3>
+          <p id="orderCount">1200</p>
+        </div>
+        <div class="card">
+          <h3>회원 수</h3>
+          <p id="memberCount">800</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상품 관리 -->
+    <div id="products" class="details">
+      <h1>제품 관리</h1>
+      <div class="chart-container">
+        <h2>카테고리별 상품 비율 (원형 차트)</h2>
+        <canvas id="productChart"></canvas>
+      </div>
+      <div id="productDetails" class="chart-container">
+        <h2>세부 정보</h2>
+        <ul id="detailsList" style="list-style-type: none; padding: 0;"></ul>
+      </div>
+    </div>
+
+    <!-- 재고 관리 -->
+    <div id="inventory" class="details">
+      <h1>재고 관리</h1>
+      <div class="chart-container">
+        <h2>월별 재고 변화 (라인 차트)</h2>
+        <canvas id="inventoryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 주문 관리 -->
+    <div id="orders" class="details">
+      <h1>주문 관리</h1>
+      <div class="chart-container">
+        <h2>주문 상태 비율 (막대 차트)</h2>
+        <canvas id="orderChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 회원 관리 -->
+    <div id="members" class="details">
+      <h1>회원 관리</h1>
+      <div class="chart-container">
+        <h2>회원 상태 비율 (막대 차트)</h2>
+        <canvas id="memberChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h2>월별 회원 가입 비율 (라인 차트)</h2>
+        <canvas id="monthlySignupChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 뒤로가기 버튼 -->
+<button class="back-button" onclick="goToAdminMain()">뒤로가기</button>
+
+<script>
+  // 섹션 전환
+  function showSection(sectionId) {
+      document.querySelectorAll('.details').forEach(section => section.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
+      document.querySelector(`.sidebar a[onclick="showSection('${sectionId}')"]`).classList.add('active');
+  }
+
+  // 관리자 메인 페이지로 이동
+  function goToAdminMain() {
+      window.location.href = 'ADM.html'; // 관리자 메인 페이지 파일 경로
+  }
+
+  // 차트 초기화 (Chart.js 사용)
+  new Chart(document.getElementById('productChart'), {
+      type: 'pie',
+      data: {
+          labels: ['인테리어 소품', '1인 가구', '밀키트', '애완용품', '기타'],
+          datasets: [{
+              data: [30, 25, 20, 20, 5], // 기타 데이터 추가 (5%)
+              backgroundColor: [
+                  '#FFC107', // 인테리어 소품: 노란색
+                  '#FF5733', // 1인 가구: 주황색
+                  '#33FF57', // 밀키트: 초록색
+                  '#3375FF', // 애완용품: 파란색
+                  'rgba(128, 128, 128, 0.6)' // 기타: 투명한 회색
+              ]
+          }]
+      },
+      options: {
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          let label = context.label || '';
+                          let value = context.raw;
+                          return `${label}: ${value}%`;
+                      }
+                  }
+              },
+              legend: {
+                  display: true,
+                  position: 'top',
+                  labels: {
+                      color: '#FFFFFF',
+                      font: {
+                          size: 14
+                      }
+                  }
+              }
+          }
+      }
+  });
+
+  new Chart(document.getElementById('inventoryChart'), {
+      type: 'line',
+      data: {
+          labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+          datasets: [
+              {
+                  label: '재고량',
+                  data: [4000, 4200, 4500, 4800, 5000, 5200, 5300, 5500, 5700, 5900, 6100, 6300],
+                  borderColor: '#FFC107',
+                  backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                  fill: true,
+              },
+              {
+                  label: '입고량',
+                  data: [500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600],
+                  borderColor: '#33FF57',
+                  backgroundColor: 'rgba(51, 255, 87, 0.2)',
+                  fill: true,
+              },
+              {
+                  label: '출고량',
+                  data: [300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400],
+                  borderColor: '#FF5733',
+                  backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                  fill: true,
+              },
+          ],
+      },
+      options: {
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return `${context.dataset.label}: ${context.raw}`;
+                      }
+                  }
+              },
+              legend: {
+                  labels: {
+                      color: '#FFFFFF',
+                  },
+              },
+          },
+          scales: {
+              x: {
+                  ticks: {
+                      color: '#FFFFFF',
+                  },
+              },
+              y: {
+                  ticks: {
+                      color: '#FFFFFF',
+                  },
+              },
+          },
+      },
+  });
+
+  new Chart(document.getElementById('orderChart'), {
+      type: 'bar',
+      data: {
+          labels: ['완료', '처리 중', '취소'],
+          datasets: [{
+              data: [800, 300, 100],
+              backgroundColor: ['#FFC107', '#FF5733', '#33FF57']
+          }]
+      },
+      options: {
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return `${context.label}: ${context.raw}`;
+                      }
+                  }
+              }
+          }
+      }
+  });
+
+  new Chart(document.getElementById('memberChart'), {
+      type: 'bar',
+      data: {
+          labels: ['활동 중', '휴면', '탈퇴'],
+          datasets: [{
+              data: [600, 150, 50],
+              backgroundColor: ['#33FF57', '#FFC107', '#FF5733']
+          }]
+      },
+      options: {
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return `${context.label}: ${context.raw}`;
+                      }
+                  }
+              }
+          }
+      }
+  });
+
+  new Chart(document.getElementById('monthlySignupChart'), {
+      type: 'line',
+      data: {
+          labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+          datasets: [{
+              label: '월별 회원 가입 수',
+              data: [50, 70, 90, 60, 80, 100, 120, 110, 95, 105, 115, 130],
+              borderColor: '#FFC107',
+              backgroundColor: 'rgba(255, 193, 7, 0.2)',
+              fill: true,
+          }]
+      },
+      options: {
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return `${context.label}: ${context.raw}`;
+                      }
+                  }
+              },
+              legend: {
+                  labels: {
+                      color: '#FFFFFF',
+                  },
+              },
+          },
+          scales: {
+              x: {
+                  ticks: {
+                      color: '#FFFFFF',
+                  },
+              },
+              y: {
+                  ticks: {
+                      color: '#FFFFFF',
+                  },
+              },
+          },
+      },
+  });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재고 관리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .sidebar {
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        .section {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-container input {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            margin: 2px;
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        .pagination button.active {
+            background-color: #45a049;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="header">재고 관리</div>
+<div class="sidebar">
+    <h3>메뉴</h3>
+    <a href="#" onclick="showSection('inventoryCheck')">재고 조회</a>
+    <a href="#" onclick="showSection('inventoryUpdate')">재고 수정</a>
+</div>
+<div id="inventoryCheck" class="content active">
+    <div class="section">
+        <h2>재고 조회</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="상품명을 입력하세요..." oninput="filterInventory()">
+        </div>
+        <table>
+            <thead>
+            <tr><th>상품 ID</th><th>상품명</th><th>수량</th></tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
+    </div>
+</div>
+<div id="inventoryUpdate" class="content">
+    <div class="section">
+        <h2>재고 수정</h2>
+        <form id="inventoryForm">
+            <label for="productId">상품 ID:</label>
+            <input type="text" id="productId" name="productId" required>
+            <label for="productName">상품명:</label>
+            <input type="text" id="productName" name="productName" required>
+            <label for="quantity">수량:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            <button type="submit">수정하기</button>
+        </form>
+    </div>
+</div>
+<button class="back-button" onclick="goToAdminMain()">뒤로가기</button>
+<script>
+    const inventory = [];
+    const itemsPerPage = 10;
+    let currentPage = 1;
+
+    // 임의 데이터 생성
+    for (let i = 1; i <= 100; i++) {
+        inventory.push({
+            id: `ID${i}`,
+            name: `상품 ${i}`,
+            quantity: Math.floor(Math.random() * 100) + 1,
+        });
+    }
+
+    function showSection(sectionId) {
+        document.querySelectorAll('.content').forEach(section => section.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    function filterInventory() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        displayInventory(currentPage, query);
+    }
+
+    function displayInventory(page, filter = '') {
+        currentPage = page;
+        const filteredInventory = inventory.filter(item => item.name.toLowerCase().includes(filter));
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedInventory = filteredInventory.slice(startIndex, endIndex);
+
+        const tableBody = document.getElementById('inventoryTableBody');
+        tableBody.innerHTML = '';
+        paginatedInventory.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${item.id}</td><td>${item.name}</td><td>${item.quantity}</td>`;
+            tableBody.appendChild(row);
+        });
+
+        displayPagination(filteredInventory.length, filter);
+    }
+
+    function displayPagination(totalItems, filter) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.className = (i === currentPage) ? 'active' : '';
+            button.addEventListener('click', () => {
+                displayInventory(i, filter);
+            });
+            pagination.appendChild(button);
+        }
+    }
+
+    document.getElementById('inventoryForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const productId = document.getElementById('productId').value;
+        const productName = document.getElementById('productName').value;
+        const quantity = document.getElementById('quantity').value;
+        alert(`상품 ID: ${productId}, 상품명: ${productName}, 수량: ${quantity}로 수정되었습니다.`);
+    });
+
+    function goToAdminMain() {
+        window.location.href = 'ADM.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        displayInventory(currentPage);
+    });
+</script>
+</body>
+</html>
