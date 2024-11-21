@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class ProductController {
 
     @Autowired
     private ProductService productService;
@@ -27,23 +27,23 @@ public class HomeController {
 
     @GetMapping("/")  // 확장자 생략
     public String home() {
-        return "home"; // view name
+        return "product/home"; // view name
         // 경로 : "/WEB-INF/views/home.html"
     }
 
     @GetMapping("/product/productDetails")
     public String detail() {
-        return "product_detail";
+        return "product/product_detail";
     }
 
     @GetMapping("/product/productSearch")
     public String search() {
-        return "product_search";
+        return "product/product_search";
     }
 
     @GetMapping("/product/productLists")
     public String view() {
-        return "product_view";
+        return "product/product_view";
     }
 
 
@@ -51,7 +51,7 @@ public class HomeController {
     @GetMapping("/product")
     public String showProductPage(Model model) {
         model.addAttribute("product", new Product());
-        return "productForm";
+        return "product/productForm";
 
     }
 
@@ -59,7 +59,7 @@ public class HomeController {
     @GetMapping("/productForm")
     public String productForm(Model model) {
         model.addAttribute("product", new Product());  // Create a new product object to bind the form
-        return "productForm";  // Return the Thymeleaf template
+        return "product/productForm";  // Return the Thymeleaf template
     }
 
     @PostMapping("/createProduct")
@@ -67,7 +67,7 @@ public class HomeController {
         // Save the product
         if (product.getName() == null || product.getName().isEmpty()) {
             model.addAttribute("error", "Product name is required.");
-            return "productForm";
+            return "product/productForm";
         }
         productMapper.insertProduct(product);
         return "redirect:/product/productLists";  // Redirect to a success page or product list page
