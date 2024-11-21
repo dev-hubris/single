@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 1 .0">
+    <title>제품 목록 보기</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header th:replace="fragments/top :: header"></header>
+<main>
+    <div class="container">
+
+        <div class="sorting-bar">
+            <label htmlFor="sort">Sort By</label>
+            <select id="sort" class="outline-none" onchange="sortProducts(this.value)">
+                <option value="createdAt">최신순</option>
+                <option value="descendingOrder">높은 가격순</option>
+                <option value="ascendingOrder">낮은 가격순</option>
+            </select>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card" th:each="product : ${products}">
+                <img th:src="${product.imageUrl}" alt="Product Image">
+                <div class="product-info">
+                    <div class="product-name" th:text="${product.name}"></div>
+                    <div class="product-category" th:text="${#lists.find(categories, 'id', product.categoryId).name}"></div>
+                    <div class="product-prices">
+                        <span class="original-price" th:if="${product.originalPrice != null}">
+                            <del th:text="${product.originalPrice}"></del>
+                        </span>
+                        <span class="discounted-price" th:text="${product.discountedPrice}"></span>
+                    </div>
+                </div>
+                <button class="add-to-cart">장바구니 담기</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+<footer th:replace="fragments/foot :: footer"></footer>
+<script>
+    function sortProducts(criteria) {
+        // Placeholder function: Implement sorting logic based on `criteria`
+        console.log(`Sorting by ${criteria}`);
+    }
+</script>
+</body>
+</html>

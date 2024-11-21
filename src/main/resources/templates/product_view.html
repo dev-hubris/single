@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 목록 보기</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+
+    </style></head><body>
+<header th:replace="fragments/top :: header"></header>
+<main>
+<div class="container">
+    <!-- Sorting Options -->
+    <div class="sorting-bar">
+        <label htmlFor = "sort">Sort By</label>
+        <select id = "sort" className = " outline-none" onChange = {onSelected}>
+            <option value = "createdAt">최신순</option>
+            <option value = "descendingOrder">높은 가격순</option>
+            <option value = "ascendingOrder">낮은 가격순</option>
+
+        </select>
+
+    </div>
+
+    <!-- Product Grid -->
+<!--    <div class="product-item" data-product-id="${product.id}">-->
+<!--        <h2 th:text="${product.name}"></h2>-->
+<!--        <p th:text="${#lists.find(categories, 'id', product.categoryId).name}"></p>-->
+<!--        <button class="add-to-cart">장바구니 담기</button>-->
+<!--    </div>-->
+
+<!--        <ul>-->
+<!--            <li th:each="product : ${products}">-->
+<!--                <span th:text="${product.name}"></span>-->
+<!--                <span th:text="${product.category.name}"></span>-->
+<!--            </li>-->
+<!--        </ul>-->
+        <!-- Example Product Card -->
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 1">
+            <div class="product-info">
+                <div class="product-name">Product Name 1</div>
+                <div class="product-prices">
+                    <span class="original-price">$100</span>
+                    <span class="discounted-price">$80</span>
+                </div>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 2">
+            <div class="product-info">
+                <div class="product-name">Product Name 2</div>
+                <div class="product-prices">
+                    <span class="original-price">$120</span>
+                    <span class="discounted-price">$90</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 3">
+            <div class="product-info">
+                <div class="product-name">Product Name 3</div>
+                <div class="product-prices">
+                    <span class="original-price">$130</span>
+                    <span class="discounted-price">$90</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://via.placeholder.com/300x200" alt="Product 4">
+            <div class="product-info">
+                <div class="product-name">Product Name 4</div>
+                <div class="product-prices">
+                    <span class="original-price">$140</span>
+                    <span class="discounted-price">$120</span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Add more products here -->
+    </div>
+</div>
+
+<script>
+    function sortProducts(criteria) {
+        // Placeholder function: Implement sorting logic based on `criteria`
+        console.log(`Sorting by ${criteria}`);
+    }
+</script>
+</main>
+<footer th:replace="fragments/foot :: footer"></footer>
+</body></html>
