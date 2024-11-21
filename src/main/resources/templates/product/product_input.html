@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 등록</title> </head>
+<body>
+<form th:action="@{/products}" method="post">
+    <span th:if="${error}" th:text="${error}" style="color: red;"></span> <input type="text" th:field="*{name}" placeholder="상품명">
+    <input type="number" th:field="*{price}" placeholder="가격">
+    <button type="submit">등록</button> </form>
+</body>
+</html>

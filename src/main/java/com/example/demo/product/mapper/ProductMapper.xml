@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.ProductMapper">
+
+    <!-- 모든 제품 조회 -->
+    <select id="findAllProducts" resultType="com.example.demo.entity.Product">
+        SELECT id, name, description, price, category_id FROM product
+    </select>
+
+    <!-- 특정 카테고리의 제품 조회 -->
+    <select id="findProductsByCategoryId" resultType="com.example.demo.entity.Product">
+        SELECT id, name, description, price, category_id FROM product
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- 모든 카테고리 조회 -->
+    <select id="findCategories" resultType="com.example.demo.entity.Category">
+        SELECT id, name FROM category
+    </select>
+
+    <!-- 제품 삽입 -->
+    <insert id="insertProduct" parameterType="com.example.demo.entity.Product">
+        INSERT INTO product (name, description, price, category_id)
+        VALUES (#{name}, #{description}, #{price}, #{categoryId})
+    </insert>
+
+</mapper>

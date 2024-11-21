@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 검색 결과</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header th:replace="fragments/top_4 :: header"></header>
+<main>
+<div class="search-container" style="text-align: center">
+    <input type="text" id="searchInput" placeholder ="원하는 옷을 검색하세요">
+    <button onclick="search()">검색</button>
+</div>
+<div class="search-results">
+</div>
+<script src="/script_search.js"></script>
+</main>
+<footer th:replace="fragments/foot :: footer"></footer>
+</body>
+</html>
