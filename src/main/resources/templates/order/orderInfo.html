@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 상세 창</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh; /* 최소 높이 설정 */
+        }
+        .container {
+          width: 80%;
+          margin: 50px auto;
+          text-align: center;
+        }
+        h1 {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        /* 박스 스타일 */
+        .order-box {
+          display: flex;
+          justify-content: space-between;
+          border: 1px solid #ddd;
+          padding: 15px;
+          margin-bottom: 20px;
+          border-radius: 10px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          align-items: center;
+        }
+        .order-box img {
+          width: 100px;
+          height: auto;
+          margin-right: 20px;
+        }
+        .order-box .order-info {
+          flex-grow: 1;
+          text-align: left;
+        }
+        .order-box .order-info p {
+          margin: 5px 0;
+          font-size: 16px;
+        }
+        .order-box .order-info span {
+          font-weight: bold;
+        }
+
+        /* 주문 번호와 상태 */
+        .order-status {
+          font-size: 14px;
+          font-weight: bold;
+          color: #555;
+        }
+
+        footer {
+          margin-top: auto; /* 다른 내용 아래에 위치 */
+        }
+    </style>
+</head>
+<body>
+
+<!-- 헤더 삽입 -->
+<header th:replace="fragments/top :: header"></header>
+
+<div class="container">
+    <h1>주문 상세 정보</h1>
+
+    <!-- 주문 박스 -->
+    <div class="order-box">
+        <img src="product-image.jpg" alt="상품 이미지">
+        <div class="order-info">
+            <p><span>상품명:</span> 예시 상품</p>
+            <p><span>가격:</span> 50,000원</p>
+            <p><span>주문일자:</span> 2024-08-22</p>
+        </div>
+        <div class="order-status">
+            <p><span>주문번호:</span> 12345678</p>
+            <span>배송 완료</span>
+        </div>
+    </div>
+
+    <!-- 추가 주문 박스 예시 (같은 형식으로 다른 주문을 추가할 수 있습니다) -->
+    <div class="order-box">
+        <img src="product-image2.jpg" alt="상품 이미지">
+        <div class="order-info">
+            <p><span>상품명:</span> 다른 예시 상품</p>
+            <p><span>가격:</span> 30,000원</p>
+            <p><span>주문일자:</span> 2024-09-15</p>
+        </div>
+        <div class="order-status">
+            <p><span>주문번호:</span> 23456789</p>
+            <span>배송 중</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- 푸터 삽입 -->
+<footer th:replace="fragments/foot :: footer"></footer>
+
+</body>
+</html>
