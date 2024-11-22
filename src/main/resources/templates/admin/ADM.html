@@ -1,63 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>관리자 메인 페이지</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <title>Admin Main Page</title>
 </head>
 <body>
-<!-- 상단 네비게이션 -->
-<header>
-  <div class="navbar">
-    <h1>관리자 페이지</h1>
-    <nav>
-      <ul class="menu">
-        <li><a href="/admin/inventory" class="menu-item">재고 관리</a></li>
-        <li><a href="/admin/users" class="menu-item">회원 관리</a></li>
-        <li><a href="/admin/orders" class="menu-item">주문 관리</a></li>
-        <li><a href="/admin/products" class="menu-item">제품 관리</a></li>
-        <li><a href="/admin/dashboard" class="menu-item">대시보드</a></li>
-      </ul>
-    </nav>
-    <button class="logout">로그아웃</button>
-  </div>
-</header>
-
-<!-- 메인 콘텐츠 -->
-<main>
-  <div class="cards">
-    <div class="card">
-      <a href="/admin/inventory">
-        <img src="/images/inventory.png" alt="재고 관리">
-        <p>재고 관리</p>
-      </a>
-    </div>
-    <div class="card">
-      <a href="/admin/users">
-        <img src="/images/users.png" alt="회원 관리">
-        <p>회원 관리</p>
-      </a>
-    </div>
-    <div class="card">
-      <a href="/admin/orders">
-        <img src="/images/orders.png" alt="주문 관리">
-        <p>주문 관리</p>
-      </a>
-    </div>
-    <div class="card">
-      <a href="/admin/products">
-        <img src="/images/products.png" alt="제품 관리">
-        <p>제품 관리</p>
-      </a>
-    </div>
-    <div class="card">
-      <a href="/admin/dashboard">
-        <img src="/images/dashboard.png" alt="대시보드">
-        <p>대시보드</p>
-      </a>
-    </div>
-  </div>
-</main>
+<h1>Admin Main Page</h1>
+<ul>
+  <li><a th:href="@{/admin/inventory}">재고 관리</a></li>
+  <li><a th:href="@{/admin/members}">회원 관리</a></li>
+  <li><a th:href="@{/admin/orders}">주문 관리</a></li>
+  <li><a th:href="@{/admin/products}">제품 관리</a></li>
+  <li><a th:href="@{/admin/dashboard}">대시보드</a></li>
+</ul>
 </body>
 </html>
