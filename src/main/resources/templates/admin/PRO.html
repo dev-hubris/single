@@ -1,11 +1,418 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Products Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품 관리 시스템</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f5f5f5;
+    }
+    .header {
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+    }
+    .back-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .back-button:hover {
+        background-color: #45a049;
+    }
+    .sidebar {
+        width: 200px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #f4f4f4;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar h3 {
+        margin-top: 0;
+    }
+    .sidebar a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+    .sidebar a:hover {
+        background-color: #e9e9e9;
+    }
+    .content {
+        margin-left: 220px;
+        padding: 20px;
+        display: none;
+    }
+    .active {
+        display: block;
+    }
+    .form-container, .product-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-container label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-container input, .form-container select, .form-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .form-container .button-container, .product-container .button-container {
+        text-align: center;
+    }
+    .form-container .button-container button, .product-container .button-container button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .product-table th, .product-table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+    .product-table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .search-container input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 50%;
+    }
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .pagination button {
+        margin: 2px;
+        padding: 5px 10px;
+        cursor: pointer;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+    .pagination button.active {
+        background-color: #45a049;
+    }
+    .preview-container img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-<h1>Products Management Page</h1>
-<p>여기는 제품 관리 페이지입니다.</p>
+<div class="header">
+  제품 관리 시스템
+</div>
+<div class="sidebar">
+  <h3>메뉴</h3>
+  <a href="#" onclick="showSection('register')">제품 등록</a>
+  <a href="#" onclick="showSection('manage')">제품 관리</a>
+  <a href="#" onclick="editFirstProduct()">제품 수정</a>
+</div>
+
+<div id="register" class="content">
+  <div class="form-container">
+    <h2>제품 등록</h2>
+    <form id="productForm">
+      <label for="productName">제품명:</label>
+      <input type="text" id="productName" name="productName" required>
+      <label for="productCode">제품코드:</label>
+      <input type="text" id="productCode" name="productCode" required>
+      <label for="productPrice">판매가격:</label>
+      <input type="number" id="productPrice" name="productPrice" required>
+      <label for="productCategory">제품분류:</label>
+      <select id="productCategory" name="productCategory" required>
+        <option value="인테리어 소품">인테리어 소품</option>
+        <option value="1인 가구">1인 가구</option>
+        <option value="밀키트">밀키트</option>
+        <option value="애완용품">애완용품</option>
+        <option value="기타">기타</option>
+      </select>
+      <label for="productDescription">제품설명:</label>
+      <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+      <label for="productImage">제품 이미지:</label>
+      <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage(event)">
+      <div class="preview-container">
+        <img id="imagePreview" alt="이미지 미리보기">
+      </div>
+      <div class="button-container">
+        <button type="submit">등록하기</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="manage" class="content">
+  <div class="product-container">
+    <h2>제품 관리</h2>
+    <div class="search-container">
+      <input type="text" placeholder="제품명 또는 제품코드를 입력하세요..." id="searchInput" oninput="filterProducts()">
+    </div>
+    <table class="product-table">
+      <thead>
+      <tr>
+        <th>NO</th>
+        <th>이미지</th>
+        <th>제품명</th>
+        <th>제품코드</th>
+        <th>제품분류</th>
+        <th>등록일</th>
+        <th>작성자</th>
+        <th>판매등록</th>
+        <th>수정/삭제</th>
+      </tr>
+      </thead>
+      <tbody id="productList"></tbody>
+    </table>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+<div id="edit" class="content">
+  <div class="form-container">
+    <h2>제품 수정</h2>
+    <form id="editForm">
+      <label for="editName">제품명:</label>
+      <input type="text" id="editName" required>
+      <label for="editCode">제품코드:</label>
+      <input type="text" id="editCode" readonly>
+      <label for="editCategory">제품분류:</label>
+      <select id="editCategory" required>
+        <option value="인테리어 소품">인테리어 소품</option>
+        <option value="1인 가구">1인 가구</option>
+        <option value="밀키트">밀키트</option>
+        <option value="애완용품">애완용품</option>
+        <option value="기타">기타</option>
+      </select>
+      <label for="editPrice">판매가격:</label>
+      <input type="number" id="editPrice" required>
+      <label for="editSale">판매 등록:</label>
+      <select id="editSale" required>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+      </select>
+      <label for="editDescription">제품설명:</label>
+      <textarea id="editDescription" rows="4" required></textarea>
+      <div class="button-container">
+        <button type="submit">수정하기</button>
+        <button type="button" onclick="showSection('manage')">취소</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<button class="back-button" onclick="window.location.href='adminmain'">뒤로가기</button>
+<script>
+  let products = [];
+  for (let i = 1; i <= 200; i++) {
+      products.push({
+          id: i,
+          name: `상품 ${i}`,
+          code: `gd${i}`,
+          category: ['인테리어 소품', '1인 가구', '밀키트', '애완용품', '기타'][i % 5],
+          date: '2023.10.26',
+          author: '관리자',
+          sale: i % 3 === 0 ? 'YES' : 'NO',
+          image: 'https://via.placeholder.com/50'
+      });
+  }
+  let currentPage = 1;
+  const itemsPerPage = 10;
+
+  function showSection(section) {
+      document.querySelectorAll('.content').forEach(content => content.classList.remove('active'));
+      document.getElementById(section).classList.add('active');
+  }
+
+  function filterProducts() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      displayProducts(1, searchInput);
+  }
+
+  function displayProducts(page, filter = '') {
+      currentPage = page;
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const filteredProducts = products.filter(p => p.name.toLowerCase().includes(filter) || p.code.toLowerCase().includes(filter));
+      const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+      paginatedProducts.forEach((product, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>${startIndex + index + 1}</td>
+              <td><img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;"></td>
+              <td>${product.name}</td>
+              <td>${product.code}</td>
+              <td>${product.category}</td>
+              <td>${product.date}</td>
+              <td>${product.author}</td>
+              <td>${product.sale}</td>
+              <td class="action-buttons">
+                  <button onclick="editProduct(${product.id})">수정</button>
+                  <button onclick="deleteProduct(${product.id})">삭제</button>
+              </td>
+          `;
+          productList.appendChild(row);
+      });
+
+      displayPagination(filteredProducts.length);
+  }
+
+  function displayPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+          const button = document.createElement('button');
+          button.textContent = i;
+          button.className = (i === currentPage) ? 'active' : '';
+          button.addEventListener('click', () => displayProducts(i));
+          pagination.appendChild(button);
+      }
+  }
+
+  function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+          const preview = document.getElementById('imagePreview');
+          preview.src = reader.result;
+          preview.style.display = 'block';
+      };
+      reader.readAsDataURL(event.target.files[0]);
+  }
+
+  function editProduct(productId) {
+const product = products.find(p => p.id === productId);
+if (product) {
+  // 기존 데이터 로드
+  document.getElementById('editName').value = product.name;
+  document.getElementById('editCode').value = product.code;
+  document.getElementById('editCategory').value = product.category;
+  document.getElementById('editPrice').value = product.price || '';
+  document.getElementById('editDescription').value = product.description || '';
+  document.getElementById('editSale').value = product.sale;
+
+  // 수정 폼 제출 이벤트 처리
+  document.getElementById('editForm').onsubmit = function (e) {
+      e.preventDefault();
+
+      // 수정 내용 반영
+      product.name = document.getElementById('editName').value;
+      product.category = document.getElementById('editCategory').value;
+      product.price = document.getElementById('editPrice').value;
+      product.description = document.getElementById('editDescription').value;
+      product.sale = document.getElementById('editSale').value;
+
+      alert('제품이 수정되었습니다.');
+      showSection('manage');
+      displayProducts(currentPage);
+  };
+
+  // 수정 화면으로 이동
+  showSection('edit');
+}
+}
+
+  function editFirstProduct() {
+if (products.length > 0) {
+  const firstProduct = products[0]; // 첫 번째 제품 선택
+  editProduct(firstProduct.id); // 수정 함수 호출
+} else {
+  alert('수정할 제품이 없습니다.');
+}
+}
+
+
+
+  function deleteProduct(productId) {
+      if (confirm('정말 삭제하시겠습니까?')) {
+          products = products.filter(p => p.id !== productId);
+          displayProducts(currentPage);
+      }
+  }
+
+  document.getElementById('productForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('productName').value;
+      const code = document.getElementById('productCode').value;
+      const price = document.getElementById('productPrice').value;
+      const category = document.getElementById('productCategory').value;
+      const description = document.getElementById('productDescription').value;
+      const imageFile = document.getElementById('productImage').files[0];
+
+      const reader = new FileReader();
+      reader.onload = function () {
+          products.push({
+              id: products.length + 1,
+              name,
+              code,
+              category,
+              date: new Date().toLocaleDateString(),
+              author: '관리자',
+              sale: 'NO',
+              image: reader.result
+          });
+
+          alert('제품이 등록되었습니다!');
+          document.getElementById('productForm').reset();
+          document.getElementById('imagePreview').style.display = 'none';
+          displayProducts(currentPage);
+      };
+
+      if (imageFile) {
+          reader.readAsDataURL(imageFile);
+      }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+      displayProducts(currentPage);
+  });
+</script>
 </body>
 </html>

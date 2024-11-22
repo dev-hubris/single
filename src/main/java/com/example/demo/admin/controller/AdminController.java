@@ -17,22 +17,22 @@ public class AdminController {
     private InventoryService inventoryService;
 
     // 관리자 페이지
-    @GetMapping("/main")
+    @GetMapping("/adminmain")
     public String adminMainPage() {
-        return "ADM"; // templates/ADM.html 파일을 반환
+        return "admin/ADM.html"; // templates/ADM.html 파일을 반환
     }
 
     // 대시보드 페이지
     @GetMapping("/dashboard")
     public String dashboardPage() {
-        return "DSH"; // templates/DSH.html 파일을 반환
+        return "admin/DSH.html"; // templates/DSH.html 파일을 반환
     }
 
     // 재고 관리 페이지
     @GetMapping("/inventory")
     public String inventoryPage(Model model) {
         model.addAttribute("products", inventoryService.getAllProducts());
-        return "INV"; // templates/INV.html 파일을 반환
+        return "admin/INV.html"; // templates/INV.html 파일을 반환
     }
 
     // 재고 업데이트
@@ -46,7 +46,7 @@ public class AdminController {
     // 회원 관리 페이지
     @GetMapping("/members")
     public String membersPage() {
-        return "MEM"; // templates/MEM.html 파일을 반환
+        return "admin/MEM.html"; // templates/MEM.html 파일을 반환
     }
 
     // 회원 추가 페이지
@@ -64,7 +64,7 @@ public class AdminController {
         // 주문 내역 리스트를 가져와 모델에 추가
         // List<Order> orders = orderService.getAllOrders();
         // model.addAttribute("orders", orders);
-        return "ORD"; // templates/ORD.html 파일을 반환
+        return "admin/ORD.html"; // templates/ORD.html 파일을 반환
     }
 
     // 주문 추가 페이지
@@ -82,7 +82,7 @@ public class AdminController {
         // 제품 리스트를 가져와 모델에 추가
         // List<Product> products = productService.getAllProducts();
         // model.addAttribute("products", products);
-        return "PRO"; // templates/PRO.html 파일을 반환
+        return "admin/PRO.html"; // templates/PRO.html 파일을 반환
     }
 
     // 제품 추가 페이지
@@ -92,5 +92,10 @@ public class AdminController {
         // 제품 추가 로직 처리
         // productService.addProduct(new Product(name, price));
         return "redirect:/admin/products";
+    }
+
+    @GetMapping("/")
+    public String home() {
+        return "admin/test";
     }
 }

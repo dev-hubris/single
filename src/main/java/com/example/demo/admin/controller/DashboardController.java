@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
 
     // 대시보드 페이지
-    @GetMapping("/main")
+    @GetMapping("/dsh_main")
     public String dashboardPage(Model model) {
         // 예시 데이터를 모델에 추가하여 다양한 통계를 대시보드에 표시할 수 있도록 설정
         model.addAttribute("totalProducts", 120);

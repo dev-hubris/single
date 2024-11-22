@@ -17,7 +17,7 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     // 재고 관리 페이지
-    @GetMapping("/main")
+    @GetMapping("/inv_main")
     public String inventoryPage(Model model) {
         model.addAttribute("products", inventoryService.getAllProducts());
         return "INV"; // templates/INV.html 파일을 반환

@@ -19,7 +19,7 @@ public class MemberController {
     private MemberService memberService;
 
     // 회원 관리 페이지
-    @GetMapping("/main")
+    @GetMapping("/mem_main")
     public String membersPage(Model model) {
         model.addAttribute("members", memberService.getAllMembers());
         return "MEM"; // templates/MEM.html 파일을 반환

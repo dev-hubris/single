@@ -17,7 +17,7 @@ public class ProductController {
     private ProductService productService;
 
     // 제품 관리 페이지
-    @GetMapping("/main")
+    @GetMapping("/pro_main")
     public String productsPage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         return "PRO"; // templates/PRO.html 파일을 반환
