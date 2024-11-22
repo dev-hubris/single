@@ -1,0 +1,58 @@
+<header>
+    <div class="menu-container">
+        <!-- 세 줄 메뉴 버튼 -->
+        <div class="menu-icon" id="menuButton">☰</div>
+
+        <!-- 쇼핑카트 아이콘 -->
+        <div class="cart-icon" id="cart">
+            <a href="cart.html" style="text-decoration: none; color: inherit;">🛒</a>
+        </div>
+
+        <!-- 검색 아이콘 -->
+        <div class="search-icon" id="search">
+            <a href="search.html" style="text-decoration: none; color: inherit;">🔍</a>
+        </div>
+    </div>
+    <div class="logo">SingleBungle</div>
+
+    <!-- 사이드바 -->
+    <nav class="sidebar" id="sidebar">
+        <ul class = "menu">
+            <br><br><br>
+            <!--        <li><a href="#">제품</a></li> &lt;!&ndash; 인테리어 소품, 1인가구, 애완용품, 밀키트 기타&ndash;&gt;-->
+
+            <li data-category-id="product">
+                <a href="#" class="category-name">제품</a>
+                <ul class="subcategory">
+                    <li><a href="product/productLists">인테리어 소품</a></li>
+                    <li><a href="#">1인 가구</a></li>
+                    <li><a href="#">애완용품</a></li>
+                    <li><a href="#">밀키트</a></li>
+                    <li><a href="#">기타</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">WOMEN</a></li>
+            <li><a href="#">LOOKBOOK</a></li>
+            <li><a href="#">HELP</a></li>
+            <li><a href="#">STORES</a></li>
+            <li><a href="login.html">LOGIN</a></li>
+            <li><a href="signup.html">JOIN</a></li>
+            <li><a href="#">ORDER</a></li>
+            <li><a href="mypage.html">MYPAGE</a></li>
+        </ul>
+    </nav>
+    <script src="/product/script.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 카테고리 클릭 이벤트 핸들러
+        const categoryNames = document.querySelectorAll('.category-name');
+        categoryNames.forEach(categoryName => {
+            categoryName.addEventListener('click', () => {
+                const subcategoryList = categoryName.nextElementSibling;
+                subcategoryList.style.display = subcategoryList.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+
+</header>
