@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-    @Select("select * from tbl_product")
+    @Select("select  * from tbl_product")
     List<Product> findAllProducts();
     List<Product> findProductsByCategoryId(Long categoryId);
     List<Category> findCategories();

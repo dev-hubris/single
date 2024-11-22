@@ -77,7 +77,8 @@ public class ProductController {
     public String getProductList(Model model) {
         List<Product> products = productService.findAllProducts();
         model.addAttribute("products", products);
-        return "product/productLists";
+        return "redirect:product/productLists";
+
     }
 
 }
