@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>메인 창</title>
-  <link rel="stylesheet" href="/product/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 창</title>
+    <link rel="stylesheet" href="/user/styles.css">
 </head>
 <body>
 <!-- 헤더 삽입 -->
@@ -12,7 +12,8 @@
 
 <!-- 메인 콘텐츠 -->
 <main>
-  <p>메인 콘텐츠가 여기에 표시됩니다.</p>
+    <h1>Welcome, <span th:text="${username}"></span>!</h1>
+    <p>메인 콘텐츠가 여기에 표시됩니다.</p>
 </main>
 
 <!-- 푸터 삽입 -->

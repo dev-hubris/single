@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/user/styles.css">
+</head>
+<body>
+<!-- 헤더 -->
+<header th:replace="fragments/top :: header"></header>
+
+<!-- 메인 콘텐츠 -->
+<main class="login-container">
+    <h1>LOGIN</h1>
+    <!-- 오류 메시지 -->
+    <div th:if="${errorMessage != null}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <form action="/user/login" method="post" class="login-form">
+        <input type="text" name="username" placeholder="ID" required>
+        <input type="password" name="password" placeholder="PASSWORD" required>
+        <button type="submit" class="btn-submit">SIGN IN</button>
+    </form>
+    <br>
+    <div class="login-links">
+        <a href="/user/register">CREATE ACCOUNT</a>
+        <br>
+        <a href="/user/forgot">FORGOT ID / PASSWORD</a>
+    </div>
+    <div class="social-login">
+        <a href="#" class="facebook-link">f FACEBOOK</a>
+    </div>
+</main>
+
+<!-- 푸터 -->
+<footer th:replace="fragments/foot :: footer"></footer>
+
+</body>
+</html>
