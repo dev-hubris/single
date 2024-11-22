@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Form</title>
+</head>
+<body>
+<h1>Product Form</h1>
+<form th:action="@{/createProduct}" th:object="${tbl_product}" method="post">
+    <label for="prod_code">prod_code:</label>
+    <input type="number" th:field="*{prod_code}" id="prod_code" required>
+    <br>
+    <label for="prod_name">Product Name:</label>
+    <input type="text" th:field="*{prod_name}" id="prod_name" required>
+    <br>
+    <label for="prod_origin_price">prod_origin_price:</label>
+    <input type="number" th:field="*{prod_origin_price}" id="prod_origin_price" required>
+    <br>
+    <label for="prod_saleprice">prod_saleprice:</label>
+    <input type="number" th:field="*{prod_saleprice}" id="prod_saleprice" required>
+    <br>
+    <label for="prod_category">prod_category:</label>
+    <input type="text" th:field="*{prod_category}" id="prod_category" required>
+    <br>
+    <label for="prod_category_detail">prod_category_detail:</label>
+    <input type="text" th:field="*{prod_category_detail}" id="prod_category_detail" required>
+    <br>
+    <label for="prod_desc">prod_desc:</label>
+    <input type="text" th:field="*{prod_desc}" id="prod_desc" required>
+    <br>
+    <label for="prod_main_img_path">prod_main_img_path:</label>
+    <input type="text" th:field="*{prod_main_img_path}" id="prod_main_img_path">
+    <br>
+    <label for="prod_date">prod_date:</label>
+    <input type="date" th:field="*{prod_date}" id="prod_date">
+    <br>
+    <label for="prod_edit_date">prod_edit_date:</label>
+    <input type="date" th:field="*{prod_edit_date}" id="prod_edit_date">
+    <br>
+    <label for="prod_quantity">prod_quantity:</label>
+    <input type="number" th:field="*{prod_quantity}" id="prod_quantity">
+    <br>
+    <label for="prod_sales_dist">prod_sales_dist:</label>
+    <input type="text" th:field="*{prod_sales_dist}" id="prod_sales_dist">
+    <br>
+
+    <button type="submit">Submit</button></form>
+</body>
+</html>
