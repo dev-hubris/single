@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>재고 관리</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+  <div class="navbar">
+    <h1>재고 관리</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="/admin" class="menu-item">메인</a></li>
+        <li><a href="/admin/users" class="menu-item">회원 관리</a></li>
+        <li><a href="/admin/orders" class="menu-item">주문 관리</a></li>
+        <li><a href="/admin/products" class="menu-item">제품 관리</a></li>
+        <li><a href="/admin/dashboard" class="menu-item">대시보드</a></li>
+      </ul>
+    </nav>
+    <button class="logout">로그아웃</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>재고 목록</h2>
+    <table class="inventory-table">
+      <thead>
+      <tr>
+        <th>상품 ID</th>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>가격</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${inventoryList}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.price} + '원'"></td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>
