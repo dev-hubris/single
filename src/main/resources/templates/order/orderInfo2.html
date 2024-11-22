@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주문 정보창</title>
+    <title>주문 완료창</title>
     <link rel="stylesheet" href="/styles.css">
     <style>
         body {
@@ -20,6 +20,14 @@
           font-size: 24px;
           font-weight: bold;
           margin-bottom: 20px;
+        }
+
+        /* 주문 완료 메시지 스타일 */
+        .completion-message {
+          font-size: 28px;
+          font-weight: bold;
+          color: #4CAF50; /* 초록색 */
+          margin-bottom: 30px;
         }
 
         /* 박스 스타일 */
@@ -68,7 +76,12 @@
 <header th:replace="fragments/top :: header"></header>
 
 <div class="container">
-    <h1>주문 정보</h1>
+    <!-- 주문 완료 메시지 -->
+    <div class="completion-message">
+        주문이 완료되었습니다!
+    </div>
+
+    <h2>구매하신 상품 목록</h2>
 
     <!-- 주문 박스 -->
     <div class="order-box">
@@ -76,20 +89,20 @@
         <div class="order-info">
             <p><span>상품명:</span> 예시 상품</p>
             <p><span>가격:</span> 50,000원</p>
-            <p><span>주문일자:</span> 2024-08-22</p>
+            <p><span>주문일자:</span> 2024-11-25</p>
         </div>
         <div class="order-status">
             <p><span>주문번호:</span> 12345678</p>
         </div>
     </div>
 
-    <!-- 추가 주문 박스 예시 (같은 형식으로 다른 주문을 추가할 수 있습니다) -->
+    <!-- 추가 주문 박스 예시 -->
     <div class="order-box">
         <img src="product-image2.jpg" alt="상품 이미지">
         <div class="order-info">
             <p><span>상품명:</span> 다른 예시 상품</p>
             <p><span>가격:</span> 30,000원</p>
-            <p><span>주문일자:</span> 2024-09-15</p>
+            <p><span>주문일자:</span> 2024-11-25</p>
         </div>
         <div class="order-status">
             <p><span>주문번호:</span> 23456789</p>
