@@ -65,5 +65,20 @@ public class UserService {
         return userMapper.findByUserId(userId);
     }
 
+    public void updateUserProfile(User user) {
+        userMapper.updateProfile(user); // DB 업데이트를 처리하는 Mapper 호출
+    }
+
+    public User authenticateUser(String username, String password) {
+        // Fetch user from the database
+        User user = userMapper.findByUserId(username);
+
+        // Check if the user exists and the password matches
+        if (user != null && user.getPassword().equals(password)) { // Add encryption logic if required
+            return user;
+        }
+        return null;
+    }
+
 
 }

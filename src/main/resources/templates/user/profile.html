@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 정보 수정</title>
+  <link rel="stylesheet" href="/user/styles.css">
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/top :: header"></header>
+
+<main class="profile-container">
+  <h1>PROFILE</h1>
+  <form action="/user/profile" method="post" class="profile-form">
+    <!-- 아이디 -->
+    <label for="userId">아이디</label>
+    <input type="text" id="userId" name="userId" th:value="${userId}" readonly required>
+
+    <!-- 비밀번호 -->
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+
+    <!-- 비밀번호 확인 -->
+    <label for="passwordConfirm">비밀번호 확인</label>
+    <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="비밀번호를 다시 입력하세요" required>
+    <div id="passwordMatchResult" class="check-result"></div> <!-- 결과 메시지 -->
+
+    <!-- 이름 -->
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" th:value="${username}" readonly required>
+
+    <!-- 생년월일 -->
+    <label for="birthdate">생년월일</label>
+    <input type="date" id="birthdate" name="birthdate" th:value="${userbirth}" readonly required>
+
+    <!-- 이메일 -->
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" th:value="${session.email}" required>
+
+    <!-- 휴대폰 번호 -->
+    <label for="phone">휴대폰 번호</label>
+    <input type="tel" id="phone" name="phone" placeholder="휴대폰 번호를 입력하세요" th:value="${session.phone}" required>
+
+    <!-- 주소 -->
+    <label for="address">주소</label>
+    <input type="text" id="zipcode" name="zipcode" placeholder="우편번호" th:value="${session.zipcode}" readonly required>
+    <button type="button" class="btn-check" onclick="execDaumPostcode()">우편번호 찾기</button>
+    <input type="text" id="address" name="address" placeholder="기본 주소" th:value="${session.address}" readonly required>
+    <input type="text" id="addressDetail" name="addressDetail" placeholder="상세 주소" th:value="${session.addressDetail}" required>
+
+    <!-- 성별 -->
+    <label for="gender">성별</label>
+    <div>
+      <input type="radio" id="male" name="gender" value="male" th:checked="${session.gender == 'male'}">
+      <label for="male">남성</label>
+      <input type="radio" id="female" name="gender" value="female" th:checked="${session.gender == 'female'}">
+      <label for="female">여성</label>
+    </div>
+
+    <!-- 약관 동의 -->
+    <div class="terms">
+      <label>
+        <input type="checkbox" name="marketing" th:checked="${session.marketing}">
+        (선택) 마케팅 정보 수신에 동의합니다.
+      </label>
+    </div>
+
+    <!-- 수정하기 버튼 -->
+    <button type="submit" class="btn-submit" id="profileButton">수정하기</button>
+  </form>
+</main>
+
+<footer th:replace="fragments/foot :: footer"></footer>
+<script src="/profile.js" ></script>
+<script>
+  // Daum 주소 API 호출 함수
+  function execDaumPostcode() {
+      new daum.Postcode({
+          oncomplete: function(data) {
+              // 우편번호와 주소 정보를 가져와서 입력 필드에 채워줌
+              document.getElementById('zipcode').value = data.zonecode;
+              document.getElementById('address').value = data.roadAddress || data.jibunAddress;
+
+              // 상세 주소 입력 필드에 포커스
+              document.getElementById('addressDetail').focus();
+          }
+      }).open();
+  }
+</script>
+
+</body>
+</html>
