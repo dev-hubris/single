@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 창</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/user/styles.css">
 </head>
 <body>
 <!-- 헤더 삽입 -->
@@ -12,6 +12,7 @@
 
 <!-- 메인 콘텐츠 -->
 <main>
+    <h1>Welcome, <span th:text="${username}"></span>!</h1>
     <p>메인 콘텐츠가 여기에 표시됩니다.</p>
 </main>
 

@@ -5,15 +5,15 @@
 
         <!-- 쇼핑카트 아이콘 -->
         <div class="cart-icon" id="cart">
-            <a href="cart.html" style="text-decoration: none; color: inherit;">🛒</a>
+            <a href="/user/cart" style="text-decoration: none; color: inherit;">🛒</a>
         </div>
 
         <!-- 검색 아이콘 -->
         <div class="search-icon" id="search">
-            <a href="search.html" style="text-decoration: none; color: inherit;">🔍</a>
+            <a href="/user/search" style="text-decoration: none; color: inherit;">🔍</a>
         </div>
     </div>
-    <div class="logo">SingleBungle</div>
+    <div class="logo"><a href="/home" style="text-decoration: none; color: inherit;">SingleBungle</a></div>
 
     <!-- 사이드바 -->
     <nav class="sidebar" id="sidebar">
@@ -36,10 +36,17 @@
             <li><a href="#">LOOKBOOK</a></li>
             <li><a href="#">HELP</a></li>
             <li><a href="#">STORES</a></li>
-            <li><a href="login.html">LOGIN</a></li>
-            <li><a href="signup.html">JOIN</a></li>
+            <li th:if="${#authentication.name != 'anonymousUser'}">
+                <a href="/user/logout">LOGOUT</a>
+            </li>
+            <li th:if="${#authentication.name == 'anonymousUser'}">
+                <a href="/user/login">LOGIN</a>
+            </li>
+            <li th:if="${#authentication.name == 'anonymousUser'}">
+                <a href="/user/register">JOIN</a>
+            </li>
             <li><a href="#">ORDER</a></li>
-            <li><a href="mypage.html">MYPAGE</a></li>
+            <li><a href="/user/mypage">MYPAGE</a></li>
         </ul>
     </nav>
     <script src="/script.js" defer></script>
