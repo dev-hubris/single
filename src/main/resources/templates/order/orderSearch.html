@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주문 조회</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh; /* 최소 높이 설정 */
+ }
+     .container {
+       width: 80%;
+       margin: 50px auto;
+       text-align: center;
+     }
+     h1 {
+       font-size: 24px;
+       font-weight: bold;
+       margin-bottom: 20px;
+     }
+     .filter-section {
+       margin-bottom: 30px;
+     }
+     .filter-section select,
+     .filter-section input[type="date"],
+     .filter-section button {
+       margin: 5px;
+       padding: 10px;
+       font-size: 14px;
+     }
+     table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-top: 20px;
+     }
+     table, th, td {
+       border: 1px solid #ddd;
+     }
+     th, td {
+       padding: 10px;
+       text-align: center;
+     }
+    th {
+   background-color: #f4f4f4;
+   color: black; /* 글자 색을 검정색으로 변경 */
+ }
+     .no-data {
+       margin: 50px 0;
+       font-size: 18px;
+       color: #555;
+     }
+     .pagination {
+       margin: 20px 0;
+       text-align: center;
+     }
+     .pagination button {
+       margin: 0 5px;
+       padding: 10px 15px;
+       font-size: 14px;
+     }
+    footer {
+  margin-top: auto; /* 다른 내용 아래에 위치 */
+}
+  </style>
+</head>
+<body>
+
+<!-- 헤더 삽입 -->
+<header th:replace="fragments/top :: header"></header>
+
+  <div class="container">
+    <h1>주문 조회</h1>
+    <div class="filter-section">
+      <select name="order-status">
+        <option value="all">전체 주문처리상태</option>
+        <option value="delivered">배송 완료</option>
+        <option value="canceled">취소</option>
+      </select>
+      <button>1개월</button>
+      <button>3개월</button>
+      <button>6개월</button>
+      <input type="date" value="2024-08-22">
+      <input type="date" value="2024-11-20">
+      <button>조회</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>주문번호</th>
+          <th>상품명</th>
+          <th>주문일자</th>
+          <th>주문상태</th>
+          <th>총액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5" class="no-data">주문 내역이 없습니다.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button disabled>«</button>
+      <button>1</button>
+      <button disabled>»</button>
+    </div>
+  </div>
+<!-- 푸터 삽입 -->
+<footer th:replace="fragments/foot :: footer"></footer>
+  
+</body>
+</html>
+
+<!-- 조회버튼을 눌렀을 때 아래 주문 내역에 주문한 제품 나오게끔 처리하기
+    특정 날짜 입력 후 주문 조회 눌렀을 시에 과거에 주문한 내역 나오게끔 처리하기 
+--->
