@@ -1,4 +1,4 @@
-package com.example.admin;
+/*package com.example.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,3 +42,4 @@ public class UserController {
         return "redirect:/admin/users"; // 삭제 후 회원 관리 페이지로 리다이렉트
     }
 }
+*/

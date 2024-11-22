@@ -34,7 +34,7 @@ public class ForgotController {
             userService.sendTemporaryPassword(email, tempPassword); // 이메일 전송
 
             model.addAttribute("alertMessage", "임시 비밀번호가 이메일로 전송되었습니다.");
-            model.addAttribute("redirectUrl", "/home"); // 성공 시 이동할 URL 설정
+            model.addAttribute("redirectUrl", "/"); // 성공 시 이동할 URL 설정
         } else {
             model.addAttribute("error", "아이디와 이메일이 일치하지 않습니다.");
 

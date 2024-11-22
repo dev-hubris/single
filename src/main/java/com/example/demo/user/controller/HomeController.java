@@ -14,7 +14,7 @@ public class HomeController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String homePage(Model model, Principal principal) {
         // 1. Principal로 사용자 ID 가져오기
         if (principal != null) {
@@ -27,6 +27,6 @@ public class HomeController {
             model.addAttribute("username", "Guest"); // 로그인되지 않은 사용자 처리
         }
 
-        return "home"; //// home.html 반환
+        return "/product/home"; //// home.html 반환
     }
 }

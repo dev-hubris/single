@@ -54,14 +54,14 @@ public class WebSecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/user/login") // 로그인 페이지 설정
-                        .defaultSuccessUrl("/home") // 로그인 성공 시 이동할 페이지
+                        .defaultSuccessUrl("/") // 로그인 성공 시 이동할 페이지
                         .failureUrl("/user/login?error=true") // 로그인 실패 시 이동할 페이지
                         .usernameParameter("username") // 폼의 사용자명 파라미터
                         .passwordParameter("password") // 폼의 비밀번호 파라미터
                 )
                 .logout(logout -> logout
                         .logoutUrl("/user/logout")
-                        .logoutSuccessUrl("/home") // 로그아웃 성공 시 이동할 페이지
+                        .logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 페이지
                         .invalidateHttpSession(true)
                 )
                 .exceptionHandling(exception -> exception

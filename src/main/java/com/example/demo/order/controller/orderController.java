@@ -9,33 +9,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class orderController {
 
 
-    @GetMapping("/")  // 확장자 생략
-    public String home() {
-        return "home"; // view name
-        // 경로 : "/WEB-INF/views/home.html"
-//    }
+//    @GetMapping("/")  // 확장자 생략
+//    public String home() {
+//        return "home"; // view name
+//        // 경로 : "/WEB-INF/views/home.html"
+////    }
 
-    @GetMapping("/orderSearch")
+    @GetMapping("/order/orderSearch")
     public String orderSearch() {
         return "order/orderSearch"; // view name (ex: "/WEB-INF/views/order.html")
     }
-    @GetMapping("/order")
+    @GetMapping("/order/orderInfo1")
     public String order() {
-        return "order"; // view name (ex: "/WEB-INF/views/order.html")
+        return "/order/orderInfo1"; // view name (ex: "/WEB-INF/views/order.html")
     }
-    @GetMapping("/ordercreate")
+    @GetMapping("/order/ordercreate")
     public String ordercreate() {
         return "order/ordercreate"; // view name (ex: "/WEB-INF/views/order.html")
     }
-    @GetMapping("/orderInfo")
+    @GetMapping("/order/orderInfo2")
     public String orderInfo() {
-        return "order/orderInfo"; // view name (ex: "/WEB-INF/views/order.html")
+        return "order/orderInfo2"; // view name (ex: "/WEB-INF/views/order.html")
     }
-    }
+}
 
 
 
 
 
 
-
+    

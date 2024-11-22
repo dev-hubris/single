@@ -25,11 +25,11 @@ public class ProductController {
     private ProductMapper productMapper;
 
 
-    @GetMapping("/")  // 확장자 생략
-    public String home() {
-        return "product/home"; // view name
-        // 경로 : "/WEB-INF/views/home.html"
-    }
+//    @GetMapping("/")  // 확장자 생략
+//    public String home() {
+//        return "product/home"; // view name
+//        // 경로 : "/WEB-INF/views/home.html"
+//    }
 
     @GetMapping("/product/productDetails")
     public String detail() {

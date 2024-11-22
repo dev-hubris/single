@@ -13,7 +13,7 @@
             <a href="/user/search" style="text-decoration: none; color: inherit;">🔍</a>
         </div>
     </div>
-    <div class="logo"><a href="/home" style="text-decoration: none; color: inherit;">SingleBungle</a></div>
+    <div class="logo"><a href="/" style="text-decoration: none; color: inherit;">SingleBungle</a></div>
 
     <!-- 사이드바 -->
     <nav class="sidebar" id="sidebar">
@@ -45,7 +45,7 @@
             <li th:if="${#authentication.name == 'anonymousUser'}">
                 <a href="/user/register">JOIN</a>
             </li>
-            <li><a href="#">ORDER</a></li>
+            <li><a href="/order/orderSearch">ORDER</a></li>
             <li><a href="/user/mypage">MYPAGE</a></li>
         </ul>
     </nav>
