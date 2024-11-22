@@ -1,21 +1,12 @@
 package com.example.demo.admin.service;
 
-import com.example.demo.admin.model.Product;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@Service
-public class ProductService {
-
-    private List<Product> productList = new ArrayList<>();
-
-    public List<Product> getAllProducts() {
-        return productList;
-    }
-
-    public void addProduct(String name, double price) {
-        productList.add(new Product(name, price));
-    }
+public interface ProductService {
+    List<Map<String, Object>> getAllProducts();
+    Map<String, Object> getProductById(int id);
+    void createProduct(Map<String, Object> product);
+    void updateProduct(int id, Map<String, Object> productDetails);
+    void deleteProduct(int id);
 }

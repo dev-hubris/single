@@ -159,7 +159,8 @@
       <thead>
       <tr><th>상품 ID</th><th>상품명</th><th>수량</th></tr>
       </thead>
-      <tbody id="inventoryTableBody"></tbody>
+      <tbody id="inventoryTableBody">
+      </tbody>
     </table>
     <div class="pagination" id="pagination"></div>
   </div>
@@ -167,7 +168,7 @@
 <div id="inventoryUpdate" class="content">
   <div class="section">
     <h2>재고 수정</h2>
-    <form id="inventoryForm">
+    <form id="inventoryForm" action="/inventory/update" method="post">
       <label for="productId">상품 ID:</label>
       <input type="text" id="productId" name="productId" required>
       <label for="productName">상품명:</label>
@@ -178,50 +179,50 @@
     </form>
   </div>
 </div>
-<button class="back-button" onclick="goToAdminMain()">뒤로가기</button>
+<button class="back-button" onclick="window.location.href='main'">뒤로가기</button>
 <script>
-  const inventory = [];
   const itemsPerPage = 10;
   let currentPage = 1;
-
-  // 임의 데이터 생성
-  for (let i = 1; i <= 100; i++) {
-      inventory.push({
-          id: `ID${i}`,
-          name: `상품 ${i}`,
-          quantity: Math.floor(Math.random() * 100) + 1,
-      });
-  }
 
   function showSection(sectionId) {
       document.querySelectorAll('.content').forEach(section => section.classList.remove('active'));
       document.getElementById(sectionId).classList.add('active');
+      if (sectionId === 'inventoryCheck') {
+          loadInventory(currentPage);
+      }
+  }
+
+  function loadInventory(page) {
+      fetch(`/admin/api/inventory?page=${page}&size=${itemsPerPage}`)
+          .then(response => response.json())
+          .then(data => {
+              displayInventory(page, data.content, data.totalElements);
+          })
+          .catch(error => {
+              console.error('Error fetching inventory:', error);
+          });
   }
 
   function filterInventory() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      displayInventory(currentPage, query);
+      loadInventory(currentPage, query);
   }
 
-  function displayInventory(page, filter = '') {
+  function displayInventory(page, inventoryList, totalItems) {
       currentPage = page;
-      const filteredInventory = inventory.filter(item => item.name.toLowerCase().includes(filter));
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const paginatedInventory = filteredInventory.slice(startIndex, endIndex);
 
       const tableBody = document.getElementById('inventoryTableBody');
       tableBody.innerHTML = '';
-      paginatedInventory.forEach(item => {
+      inventoryList.forEach(item => {
           const row = document.createElement('tr');
-          row.innerHTML = `<td>${item.id}</td><td>${item.name}</td><td>${item.quantity}</td>`;
+          row.innerHTML = `<td>${item.prodInvenId}</td><td>${item.prodInvenName}</td><td>${item.prodInvenQuantity}</td>`;
           tableBody.appendChild(row);
       });
 
-      displayPagination(filteredInventory.length, filter);
+      displayPagination(totalItems);
   }
 
-  function displayPagination(totalItems, filter) {
+  function displayPagination(totalItems) {
       const totalPages = Math.ceil(totalItems / itemsPerPage);
       const pagination = document.getElementById('pagination');
       pagination.innerHTML = '';
@@ -231,27 +232,16 @@
           button.textContent = i;
           button.className = (i === currentPage) ? 'active' : '';
           button.addEventListener('click', () => {
-              displayInventory(i, filter);
+              loadInventory(i);
           });
           pagination.appendChild(button);
       }
   }
 
-  document.getElementById('inventoryForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const productId = document.getElementById('productId').value;
-      const productName = document.getElementById('productName').value;
-      const quantity = document.getElementById('quantity').value;
-      alert(`상품 ID: ${productId}, 상품명: ${productName}, 수량: ${quantity}로 수정되었습니다.`);
-  });
-
-  function goToAdminMain() {
-      window.location.href = 'adminmain';
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
-      displayInventory(currentPage);
+      loadInventory(currentPage);
   });
 </script>
+
 </body>
 </html>

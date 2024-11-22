@@ -199,7 +199,7 @@
 </div>
 
 <!-- 뒤로가기 버튼 -->
-<button class="back-button" onclick="goToAdminMain()">뒤로가기</button>
+<button class="back-button" onclick="window.location.href='main'">뒤로가기</button>
 
 <script>
   // 섹션 전환
@@ -208,11 +208,6 @@
       document.getElementById(sectionId).classList.add('active');
       document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
       document.querySelector(`.sidebar a[onclick="showSection('${sectionId}')"]`).classList.add('active');
-  }
-
-  // 관리자 메인 페이지로 이동
-  function goToAdminMain() {
-      window.location.href = 'adminmain'; // 관리자 메인 페이지 파일 경로
   }
 
   // 차트 초기화 (Chart.js 사용)

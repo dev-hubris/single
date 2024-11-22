@@ -1,217 +1,120 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 메인 페이지</title>
     <style>
-        /* 상단 메뉴 스타일 */
-        .menu {
-            display: flex;
-            background-color: #B3B3B3;
-            padding: 20px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
         }
 
-        .menu-item {
-            position: relative;
-            margin-right: 40px;
-            font-size: 18px;
-            font-family: Inter, sans-serif;
-            font-weight: 400;
-            color: #545454;
-            cursor: pointer;
-        }
-
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 30px;
-            left: 0;
-            background-color: #DDDDDD;
-            padding: 10px;
-            width: 200px;
-        }
-
-        .submenu-item {
-            padding: 10px;
-            font-size: 16px;
-            color: #545454;
-            cursor: pointer;
-        }
-
-        .submenu-item:hover {
-            background-color: #AAAAAA;
-        }
-
-        /* 기타 스타일 */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #333;
+        .header {
+            background-color: #4CAF50;
             color: white;
+            text-align: center;
             padding: 20px;
-        }
-
-        .admin-title {
             font-size: 24px;
             font-weight: bold;
-            color: white;
         }
 
-        .image-section {
+        .menu {
             display: flex;
             justify-content: space-around;
-            flex-wrap: wrap;
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .menu a:hover {
+            background-color: #45a049;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
         }
 
-        .image-container {
-            width: 22%;
-            background-color: #f0f0f0;
+        .dashboard-card {
+            background-color: white;
+            border: 1px solid #ddd;
             border-radius: 10px;
+            padding: 20px;
             text-align: center;
-            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .image-container img {
-            width: 100%;
-            border-radius: 8px;
+        .dashboard-card:hover {
+            transform: translateY(-5px);
         }
 
-        .image-container h3 {
-            margin-top: 10px;
-            font-size: 18px;
+        .dashboard-card h3 {
+            margin: 10px 0;
+            font-size: 20px;
             color: #333;
         }
 
-        /* 로그아웃 버튼 */
-        .logout-button {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .logout-button:hover {
-            background-color: #e53935;
-        }
-
-        /* 하단 설명 스타일 */
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .footer a {
-            color: #ffcc00;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
+        .dashboard-card img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-<!-- 상단 바 -->
-<div class="top-bar">
-    <div class="admin-title">관리자 페이지</div>
-    <button class="logout-button" onclick="window.location.href='logout'">로그아웃</button>
+<!-- 헤더 -->
+<div class="header">
+    관리자 메인 페이지
 </div>
 
-<!-- 메뉴 -->
+<!-- 상단 메뉴 -->
 <div class="menu">
-    <div class="menu-item" onclick="toggleSubmenu('submenu1')">
-        재고 관리
-        <div id="submenu1" class="submenu">
-            <div class="submenu-item" onclick="navigateToSection('inventory', 'inventoryCheck')">재고 조회</div>
-            <div class="submenu-item" onclick="navigateToSection('inventory', 'inventoryUpdate')">재고 수정</div>
-        </div>
-    </div>
-    <div class="menu-item" onclick="toggleSubmenu('submenu2')">
-        회원 관리
-        <div id="submenu2" class="submenu">
-            <div class="submenu-item" onclick="navigateToSection('members', 'memberCheck')">회원 조회</div>
-            <div class="submenu-item" onclick="navigateToSection('members', 'memberUpdate')">회원 상태 수정</div>
-            <div class="submenu-item" onclick="navigateToSection('members', 'orderDetails')">회원 주문 내역</div>
-        </div>
-    </div>
-    <div class="menu-item" onclick="toggleSubmenu('submenu3')">
-        주문 관리
-        <div id="submenu3" class="submenu">
-            <div class="submenu-item" onclick="navigateToSection('orders', 'orderCheck')">주문 조회</div>
-            <div class="submenu-item" onclick="navigateToSection('orders', 'orderProcess')">주문 처리</div>
-        </div>
-    </div>
-    <div class="menu-item" onclick="toggleSubmenu('submenu4')">
-        제품 관리
-        <div id="submenu4" class="submenu">
-            <div class="submenu-item" onclick="navigateToSection('products', 'register')">제품 등록</div>
-            <div class="submenu-item" onclick="navigateToSection('products', 'manage')">제품 관리</div>
-        </div>
-    </div>
-    <div class="menu-item" onclick="window.location.href='dashboard'">
-        대시보드
-    </div>
+    <!-- 제품 관리 링크 추가 -->
+    <a href="/products">제품 관리</a> <!-- 제품 관리 페이지로 이동하는 링크 -->
+    <a href="/inventory">재고 관리</a>
+    <a href="/users">회원 관리</a>
+    <a href="/orders">주문 관리</a>
+    <a href="/dashboard">대시보드</a>
 </div>
 
-<!-- 이미지 섹션 -->
-<div class="image-section">
-    <div class="image-container" onclick="window.location.href='inventory'">
-        <img src="/src/main/resources/static/images/재고관리이미지.png" alt="재고 관리 이미지">
-        <h3>재고 관리</h3>
-    </div>
-    <div class="image-container" onclick="window.location.href='members'">
-        <img src="회원관리이미지.png" alt="회원 관리 이미지">
-        <h3>회원 관리</h3>
-    </div>
-    <div class="image-container" onclick="window.location.href='orders'">
-        <img src="주문관리이미지.png" alt="주문 관리 이미지">
-        <h3>주문 관리</h3>
-    </div>
-    <div class="image-container" onclick="window.location.href='products'">
-        <img src="상품관리이미지.png" alt="제품 관리 이미지">
+<!-- 대시보드 카드 -->
+<div class="dashboard">
+    <div class="dashboard-card" onclick="window.location.href='/products'">
+        <img src="/images/product-icon.png" alt="제품 관리">
         <h3>제품 관리</h3>
     </div>
-    <div class="image-container" onclick="window.location.href='dashboard'">
-        <img src="대시보드이미지.png" alt="대시보드 이미지">
+    <div class="dashboard-card" onclick="window.location.href='/inventory'">
+        <img src="/images/inventory-icon.png" alt="재고 관리">
+        <h3>재고 관리</h3>
+    </div>
+    <div class="dashboard-card" onclick="window.location.href='/users'">
+        <img src="/images/user-icon.png" alt="회원 관리">
+        <h3>회원 관리</h3>
+    </div>
+    <div class="dashboard-card" onclick="window.location.href='/orders'">
+        <img src="/images/order-icon.png" alt="주문 관리">
+        <h3>주문 관리</h3>
+    </div>
+    <div class="dashboard-card" onclick="window.location.href='/dashboard'">
+        <img src="/images/dashboard-icon.png" alt="대시보드">
         <h3>대시보드</h3>
     </div>
 </div>
-
-<!-- 하단 설명 섹션 -->
-<div class="footer">
-    <p>관리자 페이지는 사이트의 중요한 관리 기능을 담당하는 페이지입니다. 이곳에서 대시보드, 재고, 회원, 주문 및 상품을 관리할 수 있습니다.</p>
-    <p>더 많은 정보가 필요하시면 <a href="https://www.google.com">구글</a> 페이지를 확인해 주세요.</p>
-</div>
-
-<script>
-    // 드롭다운 메뉴 토글
-    function toggleSubmenu(id) {
-        const submenu = document.getElementById(id);
-        const allSubmenus = document.querySelectorAll('.submenu');
-
-        allSubmenus.forEach(menu => {
-            if (menu !== submenu) menu.style.display = 'none';
-        });
-
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // 특정 섹션으로 이동
-    function navigateToSection(page, section) {
-        window.location.href = `${page}#${section}`;
-    }
-</script>
-
 </body>
 </html>
