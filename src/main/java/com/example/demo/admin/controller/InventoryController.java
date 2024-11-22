@@ -1,37 +1,39 @@
 package com.example.demo.admin.controller;
 
-import com.example.demo.admin.controller.InventoryItem;
+import com.example.demo.admin.service.InventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/inventory")
 public class InventoryController {
 
-    private List<InventoryItem> inventoryList = new ArrayList<>();
+    @Autowired
+    private InventoryService inventoryService;
 
-    public InventoryController() {
-        // 초기 데이터 추가
-        inventoryList.add(new InventoryItem(1, "샘플 상품 1", 100, 10000));
-        inventoryList.add(new InventoryItem(2, "샘플 상품 2", 50, 20000));
-    }
-
-    // 재고 페이지
-    @GetMapping("/admin/inventory")
+    // 재고 관리 페이지
+    @GetMapping("/main")
     public String inventoryPage(Model model) {
-        model.addAttribute("inventoryList", inventoryList);
-        return "inventory"; // templates/inventory.html
+        model.addAttribute("products", inventoryService.getAllProducts());
+        return "INV"; // templates/INV.html 파일을 반환
     }
 
-    // 재고 추가
-    @PostMapping("/admin/inventory/add")
-    public String addInventoryItem(String productName, int quantity, int price) {
-        int nextId = inventoryList.size() + 1; // 새로운 ID 생성
-        inventoryList.add(new InventoryItem(nextId, productName, quantity, price));
-        return "redirect:/admin/inventory"; // 재고 페이지로 리다이렉트
+    // 재고 업데이트
+    @PostMapping("/update")
+    public String updateInventory(@RequestParam("productId") String productId,
+                                  @RequestParam("quantity") int quantity) {
+        inventoryService.updateProductQuantity(productId, quantity);
+        return "redirect:/inventory/main";
+    }
+
+    // 뒤로가기 버튼 처리: 관리자 메인 페이지로 이동
+    @GetMapping("/back")
+    public String backToAdmin() {
+        return "redirect:/admin/main";
     }
 }

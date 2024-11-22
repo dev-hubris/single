@@ -1,4 +1,4 @@
-package com.example.demo.admin.controller;
+package com.example.demo.admin.Item;
 
 public class InventoryItem {
     private int id;
