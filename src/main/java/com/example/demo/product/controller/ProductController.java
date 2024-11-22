@@ -43,14 +43,14 @@ public class ProductController {
 
     @GetMapping("/product/productLists")
     public String view() {
-        return "product/product_view";
+        return "product/product_view2";
     }
 
 
 
     @GetMapping("/product")
     public String showProductPage(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("tbl_product", new Product());
         return "product/productForm";
 
     }
@@ -58,19 +58,26 @@ public class ProductController {
 
     @GetMapping("/productForm")
     public String productForm(Model model) {
-        model.addAttribute("product", new Product());  // Create a new product object to bind the form
+        model.addAttribute("tbl_product", new Product());  // 객체와 html이름 맞추기 th:object
         return "product/productForm";  // Return the Thymeleaf template
     }
 
     @PostMapping("/createProduct")
     public String createProduct(@ModelAttribute Product product, Model model) {
         // Save the product
-        if (product.getName() == null || product.getName().isEmpty()) {
+        if (product.getProd_name() == null || product.getProd_name().isEmpty()) {
             model.addAttribute("error", "Product name is required.");
             return "product/productForm";
         }
         productMapper.insertProduct(product);
         return "redirect:/product/productLists";  // Redirect to a success page or product list page
+    }
+
+    @GetMapping("/products")
+    public String getProductList(Model model) {
+        List<Product> products = productService.findAllProducts();
+        model.addAttribute("products", products);
+        return "product/productLists";
     }
 
 }

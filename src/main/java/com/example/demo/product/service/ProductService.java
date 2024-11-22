@@ -29,5 +29,7 @@ public class ProductService {
     public void insertProduct(Product product) {
         productMapper.insertProduct(product);
     }
+
+
 }
 

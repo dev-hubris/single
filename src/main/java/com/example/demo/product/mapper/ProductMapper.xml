@@ -5,7 +5,7 @@
 
     <!-- 모든 제품 조회 -->
     <select id="findAllProducts" resultType="com.example.demo.entity.Product">
-        SELECT id, name, description, price, category_id FROM product
+        SELECT * FROM tbl_product
     </select>
 
     <!-- 특정 카테고리의 제품 조회 -->
@@ -21,8 +21,8 @@
 
     <!-- 제품 삽입 -->
     <insert id="insertProduct" parameterType="com.example.demo.entity.Product">
-        INSERT INTO product (name, description, price, category_id)
-        VALUES (#{name}, #{description}, #{price}, #{categoryId})
+        INSERT INTO tbl_product (prod_id, prod_code, prod_name, prod_origin_price, prod_saleprice, prod_category, prod_category_detail, prod_desc, prod_main_img_path, prod_date, prod_edit_date, prod_quantity, prod_sales_dist)
+        VALUES (#{prod_id}, #{prod_code}, #{prod_name}, #{prod_origin_price}, #{prod_saleprice}, #{prod_category}, #{prod_category_detail}, #{prod_desc}, #{prod_main_img_path}, #{prod_date}, #{prod_edit_date}, #{prod_quantity}, #{prod_sales_dist})
     </insert>
 
 </mapper>

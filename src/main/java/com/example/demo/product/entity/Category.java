@@ -1,16 +1,16 @@
 package com.example.demo.product.entity;
 
 public class Category {
-    private Long id;
+    private Long prod_id;
     private String name;
 
     // Getters and Setters
     public Long getId() {
-        return id;
+        return prod_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.prod_id = prod_id;
     }
 
     public String getName() {

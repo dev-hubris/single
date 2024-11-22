@@ -19,27 +19,29 @@
                 <option value="ascendingOrder">낮은 가격순</option>
             </select>
         </div>
+        <table>
+            <thead>
+            <tr>
+                <th>제품 코드</th>
+                <th>제품명</th>
+                <th>원가</th>
+                <th>판매가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.prod_code}"></td>
+                <td th:text="${product.prod_ame}"></td>
+                <td th:text="${product.prod_origin_price}"></td>
+                <td th:text="${product.prod_saleprice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <select th:if="${categories != null}" onchange="this.form.submit()">
-            <option value="">전체</option>
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-            </select>
-
-            <ul>
-                <li th:each="product : ${products}">
-                    <span th:text="${product.name}"></span> - <span th:text="${product.price}"></span>원
-                </li>
-            </ul>
 
 
-</div>
+
 </main>
-<footer th:replace="fragments/foot :: footer"></footer>
-<script>
-    function sortProducts(criteria) {
-        // Placeholder function: Implement sorting logic based on `criteria`
-        console.log(`Sorting by ${criteria}`);
-    }
-</script>
 </body>
 </html>
