@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 1 .0">
+    <title>제품 목록 보기</title>
+    <link rel="stylesheet" href="/product/styles.css">
+</head>
+<body>
+<header th:replace="fragments/top :: header"></header>
+<main>
+    <div class="container">
+
+        <div class="sorting-bar">
+            <label htmlFor="sort">Sort By</label>
+            <select id="sort" class="outline-none" onchange="sortProducts(this.value)">
+                <option value="createdAt">최신순</option>
+                <option value="descendingOrder">높은 가격순</option>
+                <option value="ascendingOrder">낮은 가격순</option>
+            </select>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>제품 코드</th>
+                <th>제품명</th>
+                <th>원가</th>
+                <th>판매가</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.prod_code}"></td>
+                <td th:text="${product.prod_name}"></td>
+                <td th:text="${product.prod_origin_price}"></td>
+                <td th:text="${product.prod_saleprice}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</main>
+</body>
+</html>
